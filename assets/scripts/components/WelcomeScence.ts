@@ -8,7 +8,6 @@ export class WelcomeScence extends Component {
 	}
 
 	private onMouseDown(event: EventMouse) {
-		console.log("[WelcomeScence] Mouse down event detected on target node");
 		director.loadScene("play");
 	}
 }
