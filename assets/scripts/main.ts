@@ -1,4 +1,4 @@
-import { _decorator, Component, Node } from "cc";
+import { _decorator, Component, director, Node } from "cc";
 const { ccclass, property } = _decorator;
 
 @ccclass("main")
@@ -20,5 +20,6 @@ export class main extends Component {
 
 	private startGame(): void {
 		console.log("Starting game");
+		director.loadScene("start");
 	}
 }
