@@ -1,13 +1,4 @@
-import {
-	_decorator,
-	Component,
-	Input,
-	input,
-	Node,
-	RigidBody2D,
-	Vec2,
-	Vec3,
-} from "cc";
+import { _decorator, Component, Input, input, RigidBody2D, Vec2 } from "cc";
 const { ccclass, property } = _decorator;
 
 @ccclass("Bird")
