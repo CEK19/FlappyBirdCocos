@@ -1,11 +1,11 @@
 import { _decorator, Component, Node, UITransform, Vec3 } from "cc";
-import { PipePool } from "../components/grounds/PipePool";
+import { GroundPool } from "../pool/PipePool";
 const { ccclass, property } = _decorator;
 
-@ccclass("PipeManager")
-export class PipeManager extends Component {
-	@property(PipePool)
-	public pipePool: PipePool = null!;
+@ccclass("GroundManager")
+export class GroundManager extends Component {
+	@property(GroundPool)
+	public groundPool: GroundPool = null!;
 	@property(Node)
 	public background: Node = null!;
 
@@ -13,7 +13,7 @@ export class PipeManager extends Component {
 	public pipes: Node[] = [];
 
 	protected start(): void {
-		console.log("PipeManager.ts loaded");
+		console.log("GroundManager.ts loaded");
 		this._initPipes();
 	}
 
@@ -25,7 +25,7 @@ export class PipeManager extends Component {
 
 	private _initPipes() {
 		for (let i = 0; i < this.INIT_PIPES; i++) {
-			const pipe = this.pipePool.getPipe();
+			const pipe = this.groundPool.getPipe();
 			this.node.addChild(pipe);
 			this.pipes.push(pipe);
 		}

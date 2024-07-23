@@ -1,20 +1,20 @@
-import { PipeManager } from "./../../managers/PipeManager";
+import { GroundManager } from "../../managers/GroundManager";
 import { _decorator, Component, find, Node, UITransform } from "cc";
 const { ccclass, property } = _decorator;
 
-@ccclass("Pipe")
-export class Pipe extends Component {
+@ccclass("Ground")
+export class Ground extends Component {
 	public background: Node = null!;
 	private readonly PIPE_SPEED = 100;
-	private pipe: Node = null!;
+	private ground: Node = null!;
 	private isPassed: boolean = false;
-	private pipeManager: PipeManager = null!;
+	private groundManager: GroundManager = null!;
 
 	start() {
-		this.pipe = this.node;
+		this.ground = this.node;
 		this.background = find("Canvas/background")!;
-		this.pipeManager = find("Canvas/background/grounds").getComponent(
-			PipeManager
+		this.groundManager = find("Canvas/background/grounds").getComponent(
+			GroundManager
 		)!;
 	}
 
@@ -24,9 +24,9 @@ export class Pipe extends Component {
 		}
 		const deltaX = this.PIPE_SPEED * deltaTime;
 
-		this.pipe.setPosition(
-			this.pipe.position.x - deltaX,
-			this.pipe.position.y
+		this.ground.setPosition(
+			this.ground.position.x - deltaX,
+			this.ground.position.y
 		);
 		if (this._isBaseFullyLeftOfBackground()) {
 			this._resetPipe();
@@ -34,10 +34,10 @@ export class Pipe extends Component {
 	}
 
 	private _isBaseFullyLeftOfBackground(): boolean {
-		const baseTransform = this.pipe.getComponent(UITransform);
+		const baseTransform = this.ground.getComponent(UITransform);
 		const backgroundTransform = this.background.getComponent(UITransform);
 
-		const baseWorldPosition = this.pipe.getWorldPosition();
+		const baseWorldPosition = this.ground.getWorldPosition();
 		const backgroundWorldPosition = this.background.getWorldPosition();
 
 		const baseRightEdge = baseWorldPosition.x + baseTransform.width / 2;
@@ -48,6 +48,6 @@ export class Pipe extends Component {
 	}
 
 	private _resetPipe(): void {
-		this.pipeManager.repositionPassedPipes(this.pipe);
+		this.groundManager.repositionPassedPipes(this.ground);
 	}
 }

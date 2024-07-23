@@ -57,10 +57,13 @@ export class Bullet extends Component {
 					},
 				}
 			)
+			.call(() => {
+				this.onBulletReachTarget();
+			})
 			.start();
 	}
 
-	private onBulletReachTarget() {}
-
-	update(deltaTime: number) {}
+	private onBulletReachTarget() {
+		// TODO: IMPLEMENTATION
+	}
 }
