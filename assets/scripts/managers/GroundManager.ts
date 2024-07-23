@@ -1,5 +1,5 @@
 import { _decorator, Component, Node, UITransform, Vec3 } from "cc";
-import { GroundPool } from "../pool/PipePool";
+import { GroundPool } from "../pool/GroundPool";
 const { ccclass, property } = _decorator;
 
 @ccclass("GroundManager")
