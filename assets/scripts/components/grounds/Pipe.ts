@@ -1,20 +1,27 @@
+import { PipeManager } from "./../../managers/PipeManager";
 import { _decorator, Component, find, Node, UITransform } from "cc";
 const { ccclass, property } = _decorator;
 
 @ccclass("Pipe")
 export class Pipe extends Component {
 	public background: Node = null!;
-
-	private PIPE_SPEED = 50;
-
+	private readonly PIPE_SPEED = 100;
 	private pipe: Node = null!;
+	private isPassed: boolean = false;
+	private pipeManager: PipeManager = null!;
 
 	start() {
 		this.pipe = this.node;
 		this.background = find("Canvas/background")!;
+		this.pipeManager = find("Canvas/background/grounds").getComponent(
+			PipeManager
+		)!;
 	}
 
 	update(deltaTime: number) {
+		if (this.isPassed) {
+			return;
+		}
 		const deltaX = this.PIPE_SPEED * deltaTime;
 
 		this.pipe.setPosition(
@@ -41,6 +48,6 @@ export class Pipe extends Component {
 	}
 
 	private _resetPipe(): void {
-		console.log("Resetting pipe");
+		this.pipeManager.repositionPassedPipes(this.pipe);
 	}
 }

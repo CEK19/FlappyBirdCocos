@@ -17,6 +17,12 @@ export class PipeManager extends Component {
 		this._initPipes();
 	}
 
+	public repositionPassedPipes(pipe: Node): void {
+		const wBackground = this.background.getComponent(UITransform).width;
+		const wPipe = pipe.getComponent(UITransform).width;
+		pipe.setPosition(wBackground / 2 + wPipe / 2, pipe.position.y);
+	}
+
 	private _initPipes() {
 		for (let i = 0; i < this.INIT_PIPES; i++) {
 			const pipe = this.pipePool.getPipe();
