@@ -16,9 +16,10 @@ export class Bird extends Component {
 	private _jumpTime: number = 0;
 	private _isJumping: boolean = false;
 	private _rigidBody: RigidBody2D = null!;
-	start() {
+
+	onLoad() {
 		this._rigidBody = this.getComponent(RigidBody2D)!;
-		input.on(Input.EventType.MOUSE_DOWN, this.onMouseDown.bind(this));
+		input.on(Input.EventType.MOUSE_DOWN, this.onMouseDown, this);
 	}
 
 	private onMouseDown() {
@@ -26,6 +27,10 @@ export class Bird extends Component {
 	}
 
 	private jump() {
+		if (!this._rigidBody) {
+			return;
+		}
+
 		this._isJumping = true;
 		this._rigidBody.linearVelocity = new Vec2(0, 10);
 		this._jumpTime = 0;
@@ -36,6 +41,10 @@ export class Bird extends Component {
 	}
 
 	update(deltaTime: number) {
+		if (!this._rigidBody) {
+			return;
+		}
+
 		if (this._rigidBody.linearVelocity.y < 0) {
 			this.rotateBirdDown();
 		} else {
