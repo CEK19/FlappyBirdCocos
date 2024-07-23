@@ -1,6 +1,9 @@
 import {
 	_decorator,
+	Collider2D,
 	Component,
+	Contact2DType,
+	director,
 	Input,
 	input,
 	Quat,
@@ -16,14 +19,34 @@ export class Bird extends Component {
 	private _jumpTime: number = 0;
 	private _isJumping: boolean = false;
 	private _rigidBody: RigidBody2D = null!;
+	private _isCollided: boolean = false;
 
 	onLoad() {
 		this._rigidBody = this.getComponent(RigidBody2D)!;
+
 		input.on(Input.EventType.MOUSE_DOWN, this.onMouseDown, this);
+		this.node
+			.getComponent(Collider2D)!
+			.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
 	}
 
 	private onMouseDown() {
+		if (this._isCollided) {
+			return;
+		}
+
 		this.jump();
+	}
+
+	private onBeginContact() {
+		if (this._isCollided) {
+			return;
+		}
+
+		this._isCollided = true;
+		this.scheduleOnce(() => {
+			director.loadScene("end");
+		}, 2);
 	}
 
 	private jump() {
