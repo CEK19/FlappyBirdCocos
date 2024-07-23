@@ -5,10 +5,11 @@ const { ccclass, property } = _decorator;
 export class Bird extends Component {
 	private JUMP_DURATION: number = 0.1;
 
-	private jumpTime: number = 0;
-
+	private _jumpTime: number = 0;
 	private _isJumping: boolean = false;
+	private _rigidBody: RigidBody2D = null!;
 	start() {
+		this._rigidBody = this.getComponent(RigidBody2D)!;
 		input.on(Input.EventType.MOUSE_DOWN, this.onMouseDown.bind(this));
 	}
 
@@ -22,7 +23,7 @@ export class Bird extends Component {
 		}
 
 		this._isJumping = true;
-		this.getComponent(RigidBody2D).linearVelocity = new Vec2(0, 30);
+		this._rigidBody.linearVelocity = new Vec2(0, 30);
 	}
 
 	update(deltaTime: number) {
@@ -30,11 +31,11 @@ export class Bird extends Component {
 			return;
 		}
 
-		this.jumpTime += deltaTime;
-		if (this.jumpTime >= this.JUMP_DURATION) {
-			this.jumpTime = 0;
+		this._jumpTime += deltaTime;
+		if (this._jumpTime >= this.JUMP_DURATION) {
+			this._jumpTime = 0;
 			this._isJumping = false;
-			this.getComponent(RigidBody2D).linearVelocity = new Vec2(0, -10);
+			this._rigidBody.linearVelocity = new Vec2(0, -10);
 		}
 	}
 }
