@@ -12,7 +12,6 @@ export class GroundManager extends Component {
 	public grounds: Node[] = [];
 
 	protected start(): void {
-		console.log("GroundManager.ts loaded");
 		this.background = find("Canvas/background")!;
 		this._initPipes();
 	}

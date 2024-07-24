@@ -10,12 +10,10 @@ export class BulletManager extends Component {
 	private INIT_BULLETS = 10;
 
 	protected start() {
-		console.log("BulletManager.ts [start] loaded");
 		this._initBullets();
 	}
 
 	private _initBullets() {
-		console.log("Initializing bullets...");
 		for (let i = 0; i < this.INIT_BULLETS; ++i) {
 			const bullet = this.bulletPool.getBullet();
 			this.node.addChild(bullet);

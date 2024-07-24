@@ -9,7 +9,12 @@ import {
 	Quat,
 	RigidBody2D,
 	Vec2,
+	IPhysics2DContact,
+	find,
+	Node,
+	Label,
 } from "cc";
+import { GameManager } from "../../managers/GameManager";
 const { ccclass, property } = _decorator;
 
 @ccclass("Bird")
@@ -20,14 +25,22 @@ export class Bird extends Component {
 	private _isJumping: boolean = false;
 	private _rigidBody: RigidBody2D = null!;
 	private _isCollided: boolean = false;
+	private _score: Node = null!;
 
 	onLoad() {
-		this._rigidBody = this.getComponent(RigidBody2D)!;
-
 		input.on(Input.EventType.MOUSE_DOWN, this.onMouseDown, this);
+
+		this._rigidBody = this.getComponent(RigidBody2D)!;
+		this._score = find("Canvas/background/score");
 		this.node
 			.getComponent(Collider2D)!
 			.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
+
+		this.schedule(() => {
+			GameManager.instance.addScore(1);
+			this._score.getComponent(Label)!.string =
+				GameManager.instance.score.toString();
+		}, 2);
 	}
 
 	private onMouseDown() {
@@ -38,15 +51,17 @@ export class Bird extends Component {
 		this.jump();
 	}
 
-	private onBeginContact() {
+	private onBeginContact(
+		selfCollider: Collider2D,
+		otherCollider: Collider2D,
+		contact: IPhysics2DContact | null
+	) {
 		if (this._isCollided) {
 			return;
 		}
-
+		this._rigidBody.linearVelocity = new Vec2(0, -10);
 		this._isCollided = true;
-		this.scheduleOnce(() => {
-			director.loadScene("end");
-		}, 2);
+		GameManager.instance.endGame();
 	}
 
 	private jump() {

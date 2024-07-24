@@ -5,7 +5,6 @@ const { ccclass, property } = _decorator;
 @ccclass("GroundPool")
 export class GroundPool extends BasePooler {
 	start() {
-		console.log("GroundPool.ts loaded");
 		this.initializePool();
 	}
 

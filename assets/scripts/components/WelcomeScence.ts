@@ -1,4 +1,5 @@
 import { _decorator, Component, director, EventMouse, Input, input } from "cc";
+import { GameManager } from "../managers/GameManager";
 const { ccclass, property } = _decorator;
 
 @ccclass("WelcomeScence")
@@ -12,6 +13,6 @@ export class WelcomeScence extends Component {
 	}
 
 	private onMouseDown(event: EventMouse) {
-		director.loadScene("play");
+		GameManager.instance.playGame();
 	}
 }
