@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, UITransform, Vec3 } from "cc";
+import { _decorator, Component, find, Node, UITransform, Vec3 } from "cc";
 import { GroundPool } from "../pool/GroundPool";
 const { ccclass, property } = _decorator;
 
@@ -6,14 +6,14 @@ const { ccclass, property } = _decorator;
 export class GroundManager extends Component {
 	@property(GroundPool)
 	public groundPool: GroundPool = null!;
-	@property(Node)
 	public background: Node = null!;
 
 	private INIT_PIPES: number = 4;
-	public pipes: Node[] = [];
+	public grounds: Node[] = [];
 
 	protected start(): void {
 		console.log("GroundManager.ts loaded");
+		this.background = find("Canvas/background")!;
 		this._initPipes();
 	}
 
@@ -25,16 +25,16 @@ export class GroundManager extends Component {
 
 	private _initPipes() {
 		for (let i = 0; i < this.INIT_PIPES; i++) {
-			const pipe = this.groundPool.getPipe();
+			const pipe = this.groundPool.getGround();
 			this.node.addChild(pipe);
-			this.pipes.push(pipe);
+			this.grounds.push(pipe);
 		}
 
-		if (!this.pipes[0]) {
+		if (!this.grounds[0]) {
 			return;
 		}
 
-		const firstPipe = this.pipes[0];
+		const firstPipe = this.grounds[0];
 		const backgroundWidth = this.background.getComponent(UITransform).width;
 		const backgroundHeight =
 			this.background.getComponent(UITransform).height;
@@ -47,13 +47,13 @@ export class GroundManager extends Component {
 
 		firstPipe.setPosition(firstPipeX, firstPipeY);
 
-		if (this.pipes.length === 1) {
+		if (this.grounds.length === 1) {
 			return;
 		}
 
-		for (let i = 1; i < this.pipes.length; i++) {
-			const pipe = this.pipes[i];
-			const previousPipe = this.pipes[i - 1];
+		for (let i = 1; i < this.grounds.length; i++) {
+			const pipe = this.grounds[i];
+			const previousPipe = this.grounds[i - 1];
 
 			const previousPipeX = previousPipe.position.x;
 			const previousPipeY = previousPipe.position.y;

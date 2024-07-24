@@ -11,8 +11,8 @@ import {
 import { RandomHelper } from "../../ultilties/RandomHelper";
 const { ccclass, property } = _decorator;
 
-@ccclass("Bullet")
-export class Bullet extends Component {
+@ccclass("RandomBullet")
+export class RandomBullet extends Component {
 	@property
 	private background: Node = null!;
 
@@ -64,6 +64,6 @@ export class Bullet extends Component {
 	}
 
 	private onBulletReachTarget() {
-		// TODO: IMPLEMENTATION
+		this.launchBullet();
 	}
 }

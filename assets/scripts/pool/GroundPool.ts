@@ -9,11 +9,11 @@ export class GroundPool extends BasePooler {
 		this.initializePool();
 	}
 
-	getPipe(): Node {
-		return super.getPrefab();
+	getGround(): Node {
+		return this.getPrefab();
 	}
 
-	returnPipe(pipe: Node) {
-		super.returnPrefab(pipe);
+	returnGround(pipe: Node) {
+		this.returnPrefab(pipe);
 	}
 }
