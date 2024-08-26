@@ -13,6 +13,7 @@ import {
 	find,
 	Node,
 	Label,
+	AudioSource,
 } from "cc";
 import { GameManager } from "../../managers/GameManager";
 const { ccclass, property } = _decorator;
@@ -26,6 +27,11 @@ export class Bird extends Component {
 	private _rigidBody: RigidBody2D = null!;
 	private _isCollided: boolean = false;
 	private _score: Node = null!;
+
+	@property(AudioSource)
+	public jumpAudio: AudioSource = null!;
+	@property(AudioSource)
+	public ouchAudio: AudioSource = null!;
 
 	onLoad() {
 		input.on(Input.EventType.TOUCH_START, this.onTouch, this);
@@ -61,6 +67,7 @@ export class Bird extends Component {
 		}
 		this._rigidBody.linearVelocity = new Vec2(0, -10);
 		this._isCollided = true;
+		this.ouchAudio.playOneShot(this.ouchAudio.clip);
 		GameManager.instance.endGame();
 	}
 
@@ -69,13 +76,10 @@ export class Bird extends Component {
 			return;
 		}
 
+		this.jumpAudio.play();
 		this._isJumping = true;
 		this._rigidBody.linearVelocity = new Vec2(0, 10);
 		this._jumpTime = 0;
-
-		if (this._isJumping) {
-			return;
-		}
 	}
 
 	update(deltaTime: number) {
