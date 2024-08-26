@@ -28,7 +28,7 @@ export class Bird extends Component {
 	private _score: Node = null!;
 
 	onLoad() {
-		input.on(Input.EventType.MOUSE_DOWN, this.onMouseDown, this);
+		input.on(Input.EventType.TOUCH_START, this.onTouch, this);
 
 		this._rigidBody = this.getComponent(RigidBody2D)!;
 		this._score = find("Canvas/background/score");
@@ -43,7 +43,7 @@ export class Bird extends Component {
 		}, 2);
 	}
 
-	private onMouseDown() {
+	private onTouch() {
 		if (this._isCollided) {
 			return;
 		}

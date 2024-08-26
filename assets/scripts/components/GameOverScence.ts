@@ -4,10 +4,10 @@ const { ccclass, property } = _decorator;
 @ccclass("GameOverScence")
 export class GameOverScence extends Component {
 	start() {
-		input.on(Input.EventType.MOUSE_DOWN, this.onMouseDown, this);
+		input.on(Input.EventType.TOUCH_START, this.onTouch, this);
 	}
 
-	private onMouseDown() {
+	private onTouch() {
 		director.loadScene("start");
 	}
 }
